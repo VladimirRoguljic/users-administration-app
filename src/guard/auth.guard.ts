@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
 import { KeycloakAuthGuard, KeycloakService } from 'keycloak-angular';
 
 @Injectable({
@@ -19,30 +14,28 @@ export class AuthGuard extends KeycloakAuthGuard {
   }
 
   override isAccessAllowed(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    route: ActivatedRouteSnapshot
   ): Promise<boolean | UrlTree> {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve) => {
       if (!this.authenticated) {
         this.keycloackAngular.login(), resolve(false);
         return;
       }
+
       const requiredRoles = route.data['roles'];
       let granted: boolean = true;
-      if (!requiredRoles || requiredRoles.length === 0) {
-        granted = true;
-      } else {
-        for (const requiredRole in requiredRoles) {
-          if (this.roles.indexOf(requiredRole) > -1) {
-            granted = true;
-            break;
-          }
+
+      if (requiredRoles && requiredRoles.length > 0) {
+        granted = false;
+      }
+
+      for (const requiredRole in requiredRoles) {
+        if (this.roles.indexOf(requiredRole) > -1) {
+          granted = true;
+          break;
         }
       }
 
-      if (!granted) {
-        resolve(granted);
-      }
       resolve(granted);
     });
   }

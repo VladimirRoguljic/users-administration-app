@@ -9,7 +9,7 @@ export class AuthService {
 
   getLoggedUser() {
     try {
-      let userDetails =
+      const userDetails =
         this.keycloakService.getKeycloakInstance().idTokenParsed;
       return userDetails;
     } catch (e) {
