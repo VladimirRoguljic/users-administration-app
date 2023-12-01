@@ -1,10 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { AuthService } from '../service/auth.service';
+import { CommonModule } from '@angular/common';
+import { KeycloakTokenParsed } from 'keycloak-js';
 
 @Component({
   selector: 'app-administration-panel',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './administration-panel.component.html',
   styleUrl: './administration-panel.component.scss',
 })
-export class AdministrationPanelComponent {}
+export class AdministrationPanelComponent implements OnInit {
+  authService = inject(AuthService);
+
+  loggedUser: KeycloakTokenParsed | undefined = {};
+
+  ngOnInit() {
+    this.loggedUser = this.authService.getLoggedUser() || undefined;
+  }
+
+  logOutUser() {
+    return this.authService.logout();
+  }
+}

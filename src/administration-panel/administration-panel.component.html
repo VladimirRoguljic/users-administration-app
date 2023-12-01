@@ -21,13 +21,17 @@
             role="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-            >User
+            >{{ loggedUser?.["preferred_username"] }}
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">Manage Account</a></li>
             <li><a class="dropdown-item" href="#">Relam Info</a></li>
             <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="#">Sign out</a></li>
+            <li>
+              <a class="dropdown-item" href="#" (click)="logOutUser()"
+                >Sign out</a
+              >
+            </li>
           </ul>
         </li>
         <li class="nav-item px-2">
