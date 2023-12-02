@@ -46,7 +46,7 @@
 <div class="container-fluid">
   <div class="row flex-nowrap">
     <div
-      class="col-auto col-md-3 col-xl-1 px-sm-2 px-0 bg-dark bg-gradient"
+      class="col-auto col-md-3 col-xl-1 col-lg-5 px-sm-2 px-0 bg-dark bg-gradient"
       id="sidebar">
       <div
         class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
@@ -59,7 +59,9 @@
           class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
           id="menu">
           <li class="nav-item">
-            <a href="#" class="nav-link align-middle px-0 text-white">
+            <a
+              routerLink="users-list"
+              class="nav-link align-middle px-0 text-white">
               <i class="fa-solid fa-user-group px-2"></i>
               <span class="ms-1 d-none d-sm-inline white-text">Users</span>
             </a>
@@ -80,6 +82,8 @@
         <hr />
       </div>
     </div>
-    <div class="col py-3">Content area...</div>
+    <div class="col py-3">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

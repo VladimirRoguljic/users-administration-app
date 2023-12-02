@@ -2,11 +2,12 @@ import { Component, OnInit, inject } from '@angular/core';
 import { AuthService } from '../service/auth.service';
 import { CommonModule } from '@angular/common';
 import { KeycloakTokenParsed } from 'keycloak-js';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-administration-panel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './administration-panel.component.html',
   styleUrl: './administration-panel.component.scss',
 })
