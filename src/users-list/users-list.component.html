@@ -88,7 +88,7 @@
               <td>{{ user.lastName || '-' }}</td>
               <td>{{ user.firstName || '-' }}</td>
               <td class="text-center">
-                <button class="btn btn-link" (click)="editUser(user)">
+                <button class="btn btn-link" (click)="editUser(user.id)">
                   <i class="fas fa-edit"></i>
                 </button>
 
@@ -131,7 +131,7 @@
       <div class="modal-body mt-2 mb-2">
         <div>
           Are you sure you want to delete user:
-          <span class="fw-bold">{{ user?.username }}</span>
+          <span class="fw-bold">{{ user ? user.username : '' }}</span>
           ?
         </div>
       </div>

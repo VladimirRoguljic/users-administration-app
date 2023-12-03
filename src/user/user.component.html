@@ -1,16 +1,20 @@
 <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
   <ol class="breadcrumb gx-2">
     <li class="breadcrumb-item"><a routerLink="/users-list">Users</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Create user</li>
+    <li class="breadcrumb-item">
+      {{ isEditUser ? 'Edit user' : 'Create user' }}
+    </li>
   </ol>
 </nav>
-<h2>Create user</h2>
+<h2>{{ isEditUser ? 'Edit user' : 'Create user' }}</h2>
 <hr class="my-4" />
 
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-12 col-xl-4 col-sm-12 col-lg-4">
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <form
+        [formGroup]="form"
+        (ngSubmit)="isEditUser ? onUpdateUser() : onSubmit()">
         <div class="mb-3">
           <label for="username" class="form-label">
             Username
@@ -66,7 +70,7 @@
           class="btn"
           [ngClass]="submitButtonClass"
           [disabled]="form.invalid">
-          Submit
+          {{ isEditUser ? 'Update' : 'Submit' }}
         </button>
         <button
           type="button"

@@ -6,8 +6,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AdminService } from '../service/admin.service';
+import { User } from '../interfaces/user';
 
 @Component({
   selector: 'app-user',
@@ -18,6 +19,10 @@ import { AdminService } from '../service/admin.service';
 })
 export class UserComponent implements OnInit {
   form!: FormGroup;
+
+  isEditUser: boolean = false;
+
+  user!: User;
 
   get emailVerifiedText(): string {
     return this.form.get('emailVerified')?.value ? 'YES' : 'NO';
@@ -31,6 +36,7 @@ export class UserComponent implements OnInit {
     private formBuilder: FormBuilder,
     private adminService: AdminService,
     private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +48,22 @@ export class UserComponent implements OnInit {
       lastName: [''],
       firstName: [''],
     });
+
+    this.route.data.subscribe((data) => {
+      this.user = data['user'];
+
+      // Update the form with the user data
+      if (this.user) {
+        this.isEditUser = true;
+        this.form.patchValue({
+          username: this.user.username,
+          email: this.user.email,
+          emailVerified: this.user.emailVerified,
+          lastName: this.user.lastName,
+          firstName: this.user.firstName,
+        });
+      }
+    });
   }
 
   onSubmit() {
@@ -51,5 +73,9 @@ export class UserComponent implements OnInit {
 
   onCancel() {
     this.router.navigate(['/users-list']);
+  }
+
+  onUpdateUser() {
+    this.adminService.updateUser(this.user.id, this.form.value).subscribe();
   }
 }

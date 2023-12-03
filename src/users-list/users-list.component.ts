@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AdminService } from '../service/admin.service';
-import { Observable, tap } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { User } from '../interfaces/user';
 import { Router } from '@angular/router';
 
@@ -35,7 +35,9 @@ export class UsersListComponent implements OnInit {
   }
 
   getUsersFromKeycloak() {
-    this.users = this.adminService.getUsersFromRealm();
+    this.users = this.adminService
+      .getUsersFromRealm()
+      .pipe(map((users) => [...users].sort()));
   }
 
   goToCreateNewUser() {
@@ -48,8 +50,8 @@ export class UsersListComponent implements OnInit {
     });
   }
 
-  editUser(user: User) {
-    console.log(user);
+  editUser(userId: string) {
+    this.router.navigate(['user/edit-user', userId]);
   }
 
   onDeleteUser(id: string) {

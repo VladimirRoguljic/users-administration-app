@@ -42,4 +42,18 @@ export class AdminService {
       `${this.keyCloakBaseUrl}/admin/realms/master/users/${id}`,
     );
   }
+
+  updateUser(id: string, userData: User): Observable<User> {
+    return this.http
+      .put<User>(
+        `${this.keyCloakBaseUrl}/admin/realms/master/users/${id}`,
+        userData,
+      )
+      .pipe(
+        tap(() => {
+          // Redirect to user-list after a successful request
+          this.router.navigate(['/users-list']);
+        }),
+      );
+  }
 }
