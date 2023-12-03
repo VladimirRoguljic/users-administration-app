@@ -2,14 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, TrackByFunction } from '@angular/core';
 import { AdminService } from '../service/admin.service';
 import { Observable } from 'rxjs';
-
-export interface User {
-  id: string;
-  username: string;
-  email?: string;
-  lastName?: string;
-  firstName?: string;
-}
+import { User } from '../interfaces/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users-list',
@@ -24,7 +18,7 @@ export class UsersListComponent implements OnInit {
 
   trackByFn: TrackByFunction<User> = (_, item) => item.id;
 
-  constructor(private adminService: AdminService) {}
+  constructor(private adminService: AdminService, private router: Router) {}
 
   ngOnInit(): void {
     this.getUsersFromKeycloak();
@@ -32,5 +26,9 @@ export class UsersListComponent implements OnInit {
 
   getUsersFromKeycloak() {
     this.users = this.adminService.getUsersFromRealm();
+  }
+
+  goToCreateNewUser() {
+    this.router.navigate(['user']);
   }
 }

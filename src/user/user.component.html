@@ -1,1 +1,80 @@
-<p>user works!</p>
+<nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
+  <ol class="breadcrumb gx-2">
+    <li class="breadcrumb-item"><a routerLink="/users-list">Users</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Create user</li>
+  </ol>
+</nav>
+<h2>Create user</h2>
+<hr class="my-4" />
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-xl-4 col-sm-12 col-lg-4">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label for="username" class="form-label">
+            Username
+            <span class="text-danger">*</span>
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="username"
+            formControlName="username" />
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            formControlName="email" />
+        </div>
+        <div class="mb-3">
+          <label for="emailVerified" class="form-label">Email verified</label>
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="emailVerified"
+              formControlName="emailVerified" />
+            <label class="form-check-label" for="emailVerified"></label>
+            <span id="switchText">{{ emailVerifiedText }}</span>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="lastName" class="form-label">Last name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="lastName"
+            formControlName="lastName" />
+        </div>
+
+        <div class="mb-3">
+          <label for="firstName" class="form-label">First name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="firstName"
+            formControlName="firstName" />
+        </div>
+
+        <button
+          type="submit"
+          class="btn"
+          [ngClass]="submitButtonClass"
+          [disabled]="form.invalid">
+          Submit
+        </button>
+        <button
+          type="button"
+          class="btn btn-light rounded-0 ms-4"
+          (click)="onCancel()">
+          Cancel
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

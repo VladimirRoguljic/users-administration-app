@@ -1,5 +1,5 @@
-<div class="container row align-items-start">
-  <h1>Users</h1>
+<div class="container-fluid row align-items-start">
+  <h2>Users</h2>
   <p>
     Users are the users in the current realm.
     <a
@@ -37,8 +37,25 @@
         </button>
       </div>
     </nav>
-    <div class="col-md-3 mb-2 mt-4">
-      <input type="text" class="form-control" placeholder="Search..." />
+    <div class="col-md-6 col-xl-5 col-sm-12 col-lg-4 mb-2 mt-4">
+      <div class="input-group">
+        <span class="input-group-text">
+          <i class="fas fa-search"></i>
+        </span>
+        <input type="text" class="form-control" placeholder="Search..." />
+        <span class="input-group-text">
+          <i class="fa-solid fa-arrow-right"></i>
+        </span>
+        <button
+          class="btn btn-primary ms-2"
+          type="button"
+          (click)="goToCreateNewUser()">
+          Add user
+        </button>
+        <button type="button" class="btn btn-light rounded-0 ms-2" disabled>
+          Delete user
+        </button>
+      </div>
     </div>
   </div>
   <div class="row">
