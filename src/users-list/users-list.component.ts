@@ -1,7 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, TrackByFunction } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  TrackByFunction,
+  ViewChild,
+} from '@angular/core';
 import { AdminService } from '../service/admin.service';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { User } from '../interfaces/user';
 import { Router } from '@angular/router';
 
@@ -16,7 +22,11 @@ import { Router } from '@angular/router';
 export class UsersListComponent implements OnInit {
   users!: Observable<User[]>;
 
+  user!: User;
+
   trackByFn: TrackByFunction<User> = (_, item) => item.id;
+
+  @ViewChild('closeModal') closeModal!: ElementRef;
 
   constructor(private adminService: AdminService, private router: Router) {}
 
@@ -30,5 +40,27 @@ export class UsersListComponent implements OnInit {
 
   goToCreateNewUser() {
     this.router.navigate(['user']);
+  }
+
+  onOpenDeleteConfirmationModal(id: string) {
+    this.adminService.getUserById(id).subscribe((user) => {
+      this.user = user;
+    });
+  }
+
+  editUser(user: User) {
+    console.log(user);
+  }
+
+  onDeleteUser(id: string) {
+    this.adminService
+      .deleteUser(id)
+      .pipe(
+        tap(() => {
+          this.closeModal.nativeElement.click();
+          this.getUsersFromKeycloak();
+        }),
+      )
+      .subscribe();
   }
 }

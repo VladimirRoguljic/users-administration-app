@@ -26,8 +26,20 @@ export class AdminService {
       .pipe(
         tap(() => {
           // Redirect to user-list after a successful request
-          this.router.navigate(['/user-list']);
+          this.router.navigate(['/users-list']);
         }),
       );
+  }
+
+  getUserById(id: string): Observable<User> {
+    return this.http.get<User>(
+      `${this.keyCloakBaseUrl}/admin/realms/master/users/${id}`,
+    );
+  }
+
+  deleteUser(id: string): Observable<string> {
+    return this.http.delete<string>(
+      `${this.keyCloakBaseUrl}/admin/realms/master/users/${id}`,
+    );
   }
 }

@@ -64,11 +64,12 @@
         <table class="table table-bordered">
           <thead>
             <tr>
-              <th>#</th>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Last Name</th>
-              <th>First Name</th>
+              <th class="col-0">#</th>
+              <th class="col-2">Username</th>
+              <th class="col-3">Email</th>
+              <th class="col-3">Last Name</th>
+              <th class="col-3">First Name</th>
+              <th class="col-2"></th>
             </tr>
           </thead>
           <tbody>
@@ -86,9 +87,68 @@
               <td>{{ user.email || '-' }}</td>
               <td>{{ user.lastName || '-' }}</td>
               <td>{{ user.firstName || '-' }}</td>
+              <td class="text-center">
+                <button class="btn btn-link" (click)="editUser(user)">
+                  <i class="fas fa-edit"></i>
+                </button>
+
+                <button
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#staticBackdrop"
+                  class="btn btn-link text-danger"
+                  (click)="onOpenDeleteConfirmationModal(user.id)">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Modal -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" id="deleteModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Delete user</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body mt-2 mb-2">
+        <div>
+          Are you sure you want to delete user:
+          <span class="fw-bold">{{ user?.username }}</span>
+          ?
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          #closeModal
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal">
+          Close
+        </button>
+        <button
+          type="button"
+          (click)="onDeleteUser(user.id)"
+          class="btn btn-danger">
+          Delete
+        </button>
       </div>
     </div>
   </div>
