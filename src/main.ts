@@ -1,10 +1,12 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
 import { KeycloakService } from 'keycloak-angular';
-import { APP_INITIALIZER } from '@angular/core';
+import { APP_INITIALIZER, importProvidersFrom } from '@angular/core';
 import { initailizer } from './appInit';
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
+import { HttpClientModule } from '@angular/common/http';
+import { KeycloakBearerProvider } from './providers/keycloak-bearer.provider';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -16,5 +18,7 @@ bootstrapApplication(AppComponent, {
       deps: [KeycloakService],
     },
     provideRouter(routes),
+    importProvidersFrom(HttpClientModule),
+    KeycloakBearerProvider,
   ],
 }).catch((err) => console.error(err));

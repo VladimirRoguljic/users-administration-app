@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <span class="text-bg-dark p-3">Administration panel</span>
+    <span class="text-bg-dark">Administration panel</span>
     <button
       class="navbar-toggler"
       type="button"
@@ -49,16 +49,15 @@
       class="col-auto col-md-3 col-xl-1 col-lg-5 px-sm-2 px-0 bg-dark bg-gradient"
       id="sidebar">
       <div
-        class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-        <a
-          href="#"
-          class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-          <span class="fs-5 d-none d-sm-inline">Menu</span>
-        </a>
+        class="d-flex flex-column align-items-center align-items-sm-start px-0 pt-2 text-white min-vh-100">
         <ul
           class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
           id="menu">
-          <li class="nav-item">
+          <li class="nav-item py-2">
+            <a routerLink="" class="nav-link align-middle px-0 text-white">
+              <i class="fa fa-home px-2 py-4" aria-hidden="true"></i>
+              <span class="ms-1 d-none d-sm-inline white-text">Dashboard</span>
+            </a>
             <a
               routerLink="users-list"
               class="nav-link align-middle px-0 text-white">
@@ -66,13 +65,13 @@
               <span class="ms-1 d-none d-sm-inline white-text">Users</span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item py-2">
             <a href="#" class="nav-link align-middle px-0 text-white">
-              <i class="fa-solid fa-user-plus px-2 py-4"></i>
+              <i class="fa-solid fa-user-plus px-2"></i>
               <span class="ms-1 d-none d-sm-inline">Create new user</span>
             </a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item py-2">
             <a href="#" class="nav-link align-middle px-0 text-white">
               <i class="fa-solid fa-address-card px-2"></i>
               <span class="ms-1 d-none d-sm-inline">User profile</span>

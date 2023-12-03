@@ -1,1 +1,78 @@
-<p>users-list works!</p>
+<div class="container row align-items-start">
+  <h1>Users</h1>
+  <p>
+    Users are the users in the current realm.
+    <a
+      href="https://www.keycloak.org/docs/latest/server_admin/index.html#assembly-managing-users_server_administration_guide"
+      target="_blank"
+      rel="noreferrer noopener"
+      class="px-2">
+      Learn more
+      <svg
+        fill="currentColor"
+        height="1em"
+        width="1em"
+        viewBox="0 0 512 512"
+        aria-hidden="true"
+        role="img"
+        style="vertical-align: -0.125em">
+        <path
+          d="M432,320H400a16,16,0,0,0-16,16V448H64V128H208a16,16,0,0,0,16-16V80a16,16,0,0,0-16-16H48A48,48,0,0,0,0,112V464a48,48,0,0,0,48,48H400a48,48,0,0,0,48-48V336A16,16,0,0,0,432,320ZM488,0h-128c-21.37,0-32.05,25.91-17,41l35.73,35.73L135,320.37a24,24,0,0,0,0,34L157.67,377a24,24,0,0,0,34,0L435.28,133.32,471,169c15,15,41,4.5,41-17V24A24,24,0,0,0,488,0Z"></path>
+      </svg>
+    </a>
+  </p>
+  <div class="row">
+    <nav>
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <button
+          class="nav-link active"
+          id="nav-home-tab"
+          data-bs-toggle="tab"
+          data-bs-target="#nav-home"
+          type="button"
+          role="tab"
+          aria-controls="nav-home"
+          aria-selected="true">
+          Users list
+        </button>
+      </div>
+    </nav>
+    <div class="col-md-3 mb-2 mt-4">
+      <input type="text" class="form-control" placeholder="Search..." />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Last Name</th>
+              <th>First Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let user of users | async;
+                trackBy: trackByFn;
+                let i = index
+              ">
+              <td>{{ i + 1 }}</td>
+              <td>
+                <input type="checkbox" />
+                {{ user.username }}
+              </td>
+              <td>{{ user.email || '-' }}</td>
+              <td>{{ user.lastName || '-' }}</td>
+              <td>{{ user.firstName || '-' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
