@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TrackByFunction } from '@angular/core';
 import { AdminService } from '../service/admin.service';
 import { Observable } from 'rxjs';
 
@@ -22,6 +22,8 @@ export interface User {
 export class UsersListComponent implements OnInit {
   users!: Observable<User[]>;
 
+  trackByFn: TrackByFunction<User> = (_, item) => item.id;
+
   constructor(private adminService: AdminService) {}
 
   ngOnInit(): void {
@@ -30,9 +32,5 @@ export class UsersListComponent implements OnInit {
 
   getUsersFromKeycloak() {
     this.users = this.adminService.getUsersFromRealm();
-  }
-
-  trackByFn(item: User) {
-    return item.id;
   }
 }
