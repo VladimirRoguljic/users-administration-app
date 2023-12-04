@@ -23,8 +23,9 @@
             {{ loggedUser?.["preferred_username"] }}
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Manage Account</a></li>
-            <li><a class="dropdown-item" href="#">Relam Info</a></li>
+            <li>
+              <a class="dropdown-item" routerLink="dashboard">Manage Account</a>
+            </li>
             <li><hr class="dropdown-divider" /></li>
             <li>
               <a class="dropdown-item" href="#" (click)="logOutUser()">
@@ -54,7 +55,9 @@
           class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
           id="menu">
           <li class="nav-item py-2">
-            <a routerLink="" class="nav-link align-middle px-0 text-white">
+            <a
+              routerLink="dashboard"
+              class="nav-link align-middle px-0 text-white">
               <i class="fa fa-home px-2 py-4" aria-hidden="true"></i>
               <span class="ms-1 d-none d-sm-inline white-text">Dashboard</span>
             </a>
@@ -72,9 +75,9 @@
             </a>
           </li>
           <li class="nav-item py-2">
-            <a href="#" class="nav-link align-middle px-0 text-white">
-              <i class="fa-solid fa-address-card px-2"></i>
-              <span class="ms-1 d-none d-sm-inline">User profile</span>
+            <a routerLink="roles" class="nav-link align-middle px-0 text-white">
+              <i class="fa-solid fa-user-gear px-2"></i>
+              <span class="ms-1 d-none d-sm-inline">Roles</span>
             </a>
           </li>
         </ul>

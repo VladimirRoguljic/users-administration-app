@@ -1,0 +1,49 @@
+<nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
+  <ol class="breadcrumb gx-2">
+    <li class="breadcrumb-item"><a routerLink="/roles">Roles</a></li>
+    <li class="breadcrumb-item">Create role</li>
+  </ol>
+</nav>
+<h2>Create role</h2>
+<hr class="my-4" />
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-xl-4 col-sm-12 col-lg-4">
+      <form [formGroup]="roleForm" (ngSubmit)="onSubmitRoleForm()">
+        <div class="mb-3">
+          <label for="roleName" class="form-label">
+            Role name
+            <span class="text-danger">*</span>
+          </label>
+          <input
+            type="text"
+            class="form-control"
+            id="roleName"
+            formControlName="name" />
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <input
+            type="email"
+            class="form-control"
+            id="description"
+            formControlName="description" />
+        </div>
+        <button
+          type="submit"
+          class="btn"
+          [ngClass]="submitButtonClass"
+          [disabled]="roleForm.invalid">
+          Submit
+        </button>
+        <button
+          type="button"
+          class="btn btn-light rounded-0 ms-4"
+          (click)="onCancelRoleForm()">
+          Cancel
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

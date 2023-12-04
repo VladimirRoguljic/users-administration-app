@@ -1,9 +1,9 @@
 <div class="container-fluid row align-items-start">
-  <h2>Users</h2>
+  <h2>Roles</h2>
   <p>
-    Users are the users in the current realm.
+    Realm roles are the roles that you define for use in the current realm.
     <a
-      href="https://www.keycloak.org/docs/latest/server_admin/index.html#assembly-managing-users_server_administration_guide"
+      href="https://www.keycloak.org/docs/latest/server_admin/index.html#assigning-permissions-using-roles-and-groups"
       target="_blank"
       rel="noreferrer noopener"
       class="px-2">
@@ -21,40 +21,30 @@
       </svg>
     </a>
   </p>
+  <hr class="my-4" />
   <div class="row">
-    <nav>
-      <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <button
-          class="nav-link active"
-          id="nav-home-tab"
-          data-bs-toggle="tab"
-          data-bs-target="#nav-home"
-          type="button"
-          role="tab"
-          aria-controls="nav-home"
-          aria-selected="true">
-          Users list
-        </button>
-      </div>
-    </nav>
-    <div class="col-md-6 col-xl-5 col-sm-12 col-lg-4 mb-2 mt-4">
+    <div class="col-md-6 col-xl-4 col-sm-12 col-lg-4 mb-2 mt-4">
       <div class="input-group">
         <span class="input-group-text">
           <i class="fas fa-search"></i>
         </span>
-        <input type="text" class="form-control" placeholder="Search user" />
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search role by role name" />
         <span class="input-group-text">
           <i class="fa-solid fa-arrow-right"></i>
         </span>
         <button
           class="btn btn-primary ms-2 rounded-0"
           type="button"
-          (click)="goToCreateNewUser()">
-          Add user
+          (click)="goToCreateRole()">
+          Create role
         </button>
       </div>
     </div>
   </div>
+
   <div class="row mt-2">
     <div class="col-md-12">
       <div class="table-responsive">
@@ -62,39 +52,30 @@
           <thead>
             <tr class="table-light">
               <th class="col-0">#</th>
-              <th class="col-2">Username</th>
-              <th class="col-3">Email</th>
-              <th class="col-3">Last Name</th>
-              <th class="col-3">First Name</th>
+              <th class="col-5">Role name</th>
+              <th class="col-3">Composite</th>
+              <th class="col-5">Description</th>
               <th class="col-2"></th>
             </tr>
           </thead>
           <tbody>
             <tr
               *ngFor="
-                let user of users | async;
+                let role of roles | async;
                 trackBy: trackByFn;
                 let i = index
               ">
               <td>{{ i + 1 }}</td>
-              <td>
-                <input type="checkbox" />
-                {{ user.username }}
-              </td>
-              <td>{{ user.email || '-' }}</td>
-              <td>{{ user.lastName || '-' }}</td>
-              <td>{{ user.firstName || '-' }}</td>
+              <td>{{ role.name }}</td>
+              <td>{{ role.composite }}</td>
+              <td>{{ role.description }}</td>
               <td class="text-center">
-                <button class="btn btn-link" (click)="editUser(user.id)">
-                  <i class="fas fa-edit"></i>
-                </button>
-
                 <button
                   type="button"
                   data-bs-toggle="modal"
                   data-bs-target="#staticBackdrop"
                   class="btn btn-link text-danger"
-                  (click)="onOpenDeleteConfirmationModal(user.id)">
+                  (click)="onOpenDeleteRoleConfirmationModal(role.name)">
                   <i class="fas fa-trash-alt"></i>
                 </button>
               </td>
@@ -118,7 +99,7 @@
   <div class="modal-dialog modal-dialog-centered" id="deleteModal">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Delete user</h5>
+        <h5 class="modal-title" id="staticBackdropLabel">Delete role</h5>
         <button
           type="button"
           class="btn-close"
@@ -127,8 +108,8 @@
       </div>
       <div class="modal-body mt-2 mb-2">
         <div>
-          Are you sure you want to delete user:
-          <span class="fw-bold">{{ user ? user.username : '' }}</span>
+          Are you sure you want to delete role:
+          <span class="fw-bold">{{ role ? role.name : '' }}</span>
           ?
         </div>
       </div>
@@ -142,7 +123,7 @@
         </button>
         <button
           type="button"
-          (click)="onDeleteUser(user.id)"
+          (click)="onDeleteRole(role.name)"
           class="btn btn-danger">
           Delete
         </button>
