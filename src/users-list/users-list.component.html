@@ -55,6 +55,7 @@
       </div>
     </div>
   </div>
+
   <div class="row mt-2">
     <div class="col-md-12">
       <div class="table-responsive">
@@ -71,15 +72,21 @@
           </thead>
           <tbody>
             <tr
+              [ngClass]="{ 'table-light': odd, 'even-row': even }"
               *ngFor="
                 let user of users | async;
+                let odd = odd;
+                let even = even;
                 trackBy: trackByFn;
                 let i = index
               ">
-              <td>{{ i + 1 }}</td>
               <td>
-                <input type="checkbox" />
-                {{ user.username }}
+                {{ i + 1 }}
+              </td>
+              <td>
+                <a [routerLink]="['/user/edit-user/', user.id]">
+                  {{ user.username }}
+                </a>
               </td>
               <td>{{ user.email || '-' }}</td>
               <td>{{ user.lastName || '-' }}</td>

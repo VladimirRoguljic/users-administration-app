@@ -9,76 +9,251 @@
 <h2>{{ isEditUser ? 'Edit user' : 'Create user' }}</h2>
 <hr class="my-4" />
 
-<div class="container-fluid">
+<div class="container-fluid mb-4">
   <div class="row">
-    <div class="col-md-12 col-xl-4 col-sm-12 col-lg-4">
-      <form
-        [formGroup]="form"
-        (ngSubmit)="isEditUser ? onUpdateUser() : onSubmit()">
-        <div class="mb-3">
-          <label for="username" class="form-label">
-            Username
-            <span class="text-danger">*</span>
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            id="username"
-            formControlName="username" />
+    <div class="col-md-12 col-xl-12 col-sm-12 col-lg-12">
+      <!-- Tab navigation -->
+      <ul class="nav nav-tabs" *ngIf="isEditUser">
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            id="details-tab"
+            data-bs-toggle="tab"
+            href="#details">
+            Details
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            id="role-mapping-tab"
+            data-bs-toggle="tab"
+            href="#role-mapping">
+            Role Mapping
+          </a>
+        </li>
+      </ul>
+
+      <!-- Tab content -->
+      <div class="tab-content">
+        <!-- User details tab content -->
+        <div
+          class="tab-pane fade show active mt-4 col-md-12 col-xl-4 col-sm-12 col-lg-4"
+          id="details">
+          <form
+            [formGroup]="form"
+            (ngSubmit)="isEditUser ? onUpdateUser() : onSubmit()">
+            <div class="mb-3">
+              <label for="username" class="form-label">
+                Username
+                <span class="text-danger">*</span>
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                formControlName="username" />
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email address</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                formControlName="email" />
+            </div>
+            <div class="mb-3">
+              <label for="emailVerified" class="form-label">
+                Email verified
+              </label>
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="emailVerified"
+                  formControlName="emailVerified" />
+                <label class="form-check-label" for="emailVerified"></label>
+                <span id="switchText">{{ emailVerifiedText }}</span>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="lastName" class="form-label">Last name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="lastName"
+                formControlName="lastName" />
+            </div>
+
+            <div class="mb-3">
+              <label for="firstName" class="form-label">First name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="firstName"
+                formControlName="firstName" />
+            </div>
+
+            <button
+              type="submit"
+              class="btn"
+              [ngClass]="submitButtonClass"
+              [disabled]="form.invalid">
+              {{ isEditUser ? 'Update' : 'Submit' }}
+            </button>
+            <button
+              type="button"
+              class="btn btn-light rounded-0 ms-4"
+              (click)="onCancel()">
+              Cancel
+            </button>
+          </form>
         </div>
-        <div class="mb-3">
-          <label for="email" class="form-label">Email address</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            formControlName="email" />
-        </div>
-        <div class="mb-3">
-          <label for="emailVerified" class="form-label">Email verified</label>
-          <div class="form-check form-switch">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              id="emailVerified"
-              formControlName="emailVerified" />
-            <label class="form-check-label" for="emailVerified"></label>
-            <span id="switchText">{{ emailVerifiedText }}</span>
+
+        <!-- Role Mapping tab content -->
+        <div class="tab-pane fade" id="role-mapping">
+          <div class="col-md-6 col-xl-5 col-sm-12 col-lg-4 mb-2 mt-4">
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="fas fa-search"></i>
+              </span>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search by name" />
+              <span class="input-group-text">
+                <i class="fa-solid fa-arrow-right"></i>
+              </span>
+              <button
+                class="btn btn-primary ms-2 rounded-0"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop"
+                (click)="getAvailableRoles()">
+                Assign role
+              </button>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr class="table-light">
+                        <th class="col-0">#</th>
+                        <th class="col-5">Name</th>
+                        <th class="col-5">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        [ngClass]="{ 'table-light': odd, 'even-row': even }"
+                        *ngFor="
+                          let role of roleMapping | async;
+                          let odd = odd;
+                          let even = even;
+                          let i = index
+                        ">
+                        <td>
+                          {{ i + 1 }}
+                        </td>
+                        <td>
+                          {{ role.name || '-' }}
+                        </td>
+                        <td>{{ role.description || '-' }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <div class="mb-3">
-          <label for="lastName" class="form-label">Last name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="lastName"
-            formControlName="lastName" />
-        </div>
-
-        <div class="mb-3">
-          <label for="firstName" class="form-label">First name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="firstName"
-            formControlName="firstName" />
-        </div>
-
+<!-- Modal  -->
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered" id="roleAssign">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="staticBackdropLabel">
+          Assign role to {{ user ? user.username : '' }}
+        </h3>
         <button
-          type="submit"
-          class="btn"
-          [ngClass]="submitButtonClass"
-          [disabled]="form.invalid">
-          {{ isEditUser ? 'Update' : 'Submit' }}
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body mt-2 mb-2">
+        <div>
+          <div class="col-md-12">
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr class="table-light">
+                    <th class="col-0">#</th>
+                    <th class="col-5">Name</th>
+                    <th class="col-5">Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    [ngClass]="{ 'table-light': odd, 'even-row': even }"
+                    *ngFor="
+                      let role of rolesToAssign | async;
+                      let odd = odd;
+                      let even = even;
+                      let i = index
+                    ">
+                    <td>
+                      {{ i + 1 }}
+                    </td>
+                    <td>
+                      <input
+                        type="checkbox"
+                        name="roles"
+                        [checked]="selectedRoles.has(role)"
+                        (change)="toggleRoleSelection(role)" />
+                      {{ role.name || '-' }}
+                    </td>
+                    <td>{{ role.description || '-' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          [disabled]="!hasSelectedRoles()"
+          type="button"
+          class="btn btn-secondary"
+          (click)="assignRoleToUser()"
+          data-bs-dismiss="modal">
+          Assign
         </button>
         <button
           type="button"
-          class="btn btn-light rounded-0 ms-4"
-          (click)="onCancel()">
+          #closeModal
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          class="btn btn-light">
           Cancel
         </button>
-      </form>
+      </div>
     </div>
   </div>
 </div>

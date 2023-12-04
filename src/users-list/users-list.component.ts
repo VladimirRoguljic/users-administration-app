@@ -9,12 +9,12 @@ import {
 import { AdminService } from '../service/admin.service';
 import { Observable, map, tap } from 'rxjs';
 import { User } from '../interfaces/user';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-users-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   providers: [AdminService],
   templateUrl: './users-list.component.html',
   styleUrl: './users-list.component.scss',

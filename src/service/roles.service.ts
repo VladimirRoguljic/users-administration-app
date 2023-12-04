@@ -41,4 +41,26 @@ export class RolesService {
       `${this.keyCloakBaseUrl}/admin/realms/master/roles/${roleName}`,
     );
   }
+
+  getRoleMapping(userId: string): Observable<Role> {
+    return this.http.get<Role>(
+      `${this.keyCloakBaseUrl}/admin/realms/master/users/${userId}/role-mappings`,
+    );
+  }
+
+  getAvailableRolesForUser(userId: string): Observable<Role[]> {
+    return this.http.get<Role[]>(
+      `${this.keyCloakBaseUrl}/admin/realms/master/users/${userId}/role-mappings/realm/available`,
+    );
+  }
+
+  assignRoleToSpecificUser(
+    userId: string,
+    roleList: Role[],
+  ): Observable<Role[]> {
+    return this.http.post<Role[]>(
+      `${this.keyCloakBaseUrl}/admin/realms/master/users/${userId}/role-mappings/realm/`,
+      roleList,
+    );
+  }
 }

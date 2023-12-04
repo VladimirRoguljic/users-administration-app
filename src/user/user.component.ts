@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -9,6 +9,9 @@ import {
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AdminService } from '../service/admin.service';
 import { User } from '../interfaces/user';
+import { RolesService } from '../service/roles.service';
+import { Role } from '../interfaces/role';
+import { Observable, map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-user',
@@ -24,6 +27,12 @@ export class UserComponent implements OnInit {
 
   user!: User;
 
+  roleMapping!: Observable<Role[]>;
+
+  rolesToAssign!: Observable<Role[]>;
+
+  @ViewChild('closeModal') closeModal!: ElementRef;
+
   get emailVerifiedText(): string {
     return this.form.get('emailVerified')?.value ? 'YES' : 'NO';
   }
@@ -32,11 +41,16 @@ export class UserComponent implements OnInit {
     return this.form.valid ? 'btn-primary' : 'btn-secondary';
   }
 
+  selectedRoles: Set<Role> = new Set<Role>();
+
+  roleListRepresentations!: Role[];
+
   constructor(
     private formBuilder: FormBuilder,
     private adminService: AdminService,
     private router: Router,
     private route: ActivatedRoute,
+    private roleService: RolesService,
   ) {}
 
   ngOnInit(): void {
@@ -62,6 +76,8 @@ export class UserComponent implements OnInit {
           lastName: this.user.lastName,
           firstName: this.user.firstName,
         });
+
+        this.getRoleMapping(this.user.id);
       }
     });
   }
@@ -77,5 +93,45 @@ export class UserComponent implements OnInit {
 
   onUpdateUser() {
     this.adminService.updateUser(this.user.id, this.form.value).subscribe();
+  }
+
+  getRoleMapping(userId: string) {
+    this.roleMapping = this.roleService
+      .getRoleMapping(userId)
+      .pipe(map((res) => res['realmMappings']));
+  }
+
+  getAvailableRoles() {
+    this.rolesToAssign = this.roleService.getAvailableRolesForUser(
+      this.user.id,
+    );
+  }
+
+  toggleRoleSelection(role: Role): void {
+    if (this.selectedRoles.has(role)) {
+      this.selectedRoles.delete(role);
+    } else {
+      this.selectedRoles.add(role);
+    }
+
+    this.roleListRepresentations = Array.from(this.selectedRoles);
+  }
+
+  // Check if at least one role is selected
+  hasSelectedRoles(): boolean {
+    return this.selectedRoles.size > 0;
+  }
+
+  assignRoleToUser() {
+    this.roleService
+      .assignRoleToSpecificUser(this.user.id, this.roleListRepresentations)
+      .pipe(
+        tap(() => {
+          // Redirect to roles after a successful request
+          // this.closeModal.nativeElement.click();
+          this.getRoleMapping(this.user.id);
+        }),
+      )
+      .subscribe();
   }
 }

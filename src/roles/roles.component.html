@@ -60,8 +60,11 @@
           </thead>
           <tbody>
             <tr
+              [ngClass]="{ 'table-light': odd, 'even-row': even }"
               *ngFor="
                 let role of roles | async;
+                let odd = odd;
+                let even = even;
                 trackBy: trackByFn;
                 let i = index
               ">
