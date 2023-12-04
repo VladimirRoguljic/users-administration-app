@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../assets/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { User } from '../interfaces/user';
 import { Router } from '@angular/router';
@@ -14,7 +14,18 @@ export class AdminService {
   constructor(private http: HttpClient, private router: Router) {}
 
   // Get users.Returns a stream of users, filtered according to query parameters.
-  getUsersFromRealm(): Observable<User[]> {
+  getUsersFromRealm(searchTerm?: string): Observable<User[]> {
+    let params = new HttpParams();
+
+    if (searchTerm) {
+      params = params.set('search', searchTerm);
+
+      return this.http.get<User[]>(
+        `${this.keyCloakBaseUrl}/admin/realms/master/users`,
+        { params },
+      );
+    }
+
     return this.http.get<User[]>(
       `${this.keyCloakBaseUrl}/admin/realms/master/users`,
     );

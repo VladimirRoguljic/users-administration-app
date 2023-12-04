@@ -42,10 +42,18 @@
         <span class="input-group-text">
           <i class="fas fa-search"></i>
         </span>
-        <input type="text" class="form-control" placeholder="Search user" />
-        <span class="input-group-text">
-          <i class="fa-solid fa-arrow-right"></i>
-        </span>
+        <input
+          type="text"
+          [(ngModel)]="userSearchTerm"
+          (keyup.enter)="onSearchUser()"
+          class="form-control"
+          placeholder="Search user" />
+        <button
+          class="btn btn-secondary"
+          [disabled]="!userSearchTerm"
+          (click)="onSearchUser()">
+          Search
+        </button>
         <button
           class="btn btn-primary ms-2 rounded-0"
           type="button"

@@ -10,11 +10,12 @@ import { AdminService } from '../service/admin.service';
 import { Observable, map, tap } from 'rxjs';
 import { User } from '../interfaces/user';
 import { Router, RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-users-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   providers: [AdminService],
   templateUrl: './users-list.component.html',
   styleUrl: './users-list.component.scss',
@@ -23,6 +24,8 @@ export class UsersListComponent implements OnInit {
   users!: Observable<User[]>;
 
   user!: User;
+
+  userSearchTerm!: string;
 
   trackByFn: TrackByFunction<User> = (_, item) => item.id;
 
@@ -64,5 +67,9 @@ export class UsersListComponent implements OnInit {
         }),
       )
       .subscribe();
+  }
+
+  onSearchUser() {
+    this.users = this.adminService.getUsersFromRealm(this.userSearchTerm);
   }
 }
