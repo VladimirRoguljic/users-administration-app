@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { KeycloakTokenParsed } from 'keycloak-js';
 import { RouterModule } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { ProxyService } from '../service/proxy.service';
 
 @Component({
   selector: 'app-administration-panel',
@@ -14,6 +15,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AdministrationPanelComponent implements OnInit {
   authService = inject(AuthService);
+
+  proxyService = inject(ProxyService);
 
   http = inject(HttpClient);
 
@@ -27,14 +30,15 @@ export class AdministrationPanelComponent implements OnInit {
     return this.authService.logout();
   }
 
-  downloadDocument(): void {
-    const pdfUrl = 'https://www.africau.edu/images/default/sample.pdf';
-    this.http.get(pdfUrl, { responseType: 'blob' }).subscribe((blob: Blob) => {
+  downloadDocument(event: Event): void {
+    event.preventDefault();
+
+    this.proxyService.getPdf().subscribe((blob: Blob) => {
+      const link = document.createElement('a');
       const blobUrl = URL.createObjectURL(blob);
 
-      const link = document.createElement('a');
       link.href = blobUrl;
-      link.download = 'your-document.pdf';
+      link.download = 'sample.pdf';
 
       document.body.appendChild(link);
       link.click();

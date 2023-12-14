@@ -1,0 +1,11 @@
+{
+  "/api": {
+    "target": "https://www.africau.edu",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/api": ""
+    },
+    "logLevel": "debug"
+  }
+}
