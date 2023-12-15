@@ -18,8 +18,8 @@ export class AuthService {
     }
   }
 
-  logout() {
-    this.keycloakService.logout();
+  logout(redirectUri?: string): Promise<void> {
+    return this.keycloakService.logout(redirectUri);
   }
 
   redirectToProfile() {

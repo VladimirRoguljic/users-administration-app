@@ -26,8 +26,8 @@ export class AdministrationPanelComponent implements OnInit {
     this.loggedUser = this.authService.getLoggedUser() || undefined;
   }
 
-  logOutUser() {
-    return this.authService.logout();
+  async logOutUser() {
+    await this.authService.logout(window.location.origin);
   }
 
   downloadDocument(event: Event): void {
