@@ -91,7 +91,7 @@ export class KeycloakBearerInterceptor implements HttpInterceptor {
       from(this.conditionallyUpdateToken(req)),
       of(this.keycloak.isLoggedIn()),
     ]).pipe(
-      mergeMap(([_, isLoggedIn]) =>
+      mergeMap((isLoggedIn) =>
         isLoggedIn
           ? this.handleRequestWithTokenHeader(req, next)
           : next.handle(req),
